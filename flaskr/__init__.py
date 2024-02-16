@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from . import db
 
 def create_app(test_config=None):
     # Create and configure the app
@@ -21,10 +22,12 @@ def create_app(test_config=None):
         os.mkdir(app.instance_path)
     except OSError:
         pass
-
+    
     # Simple page says hello
     @app.route('/hello')
     def hello():
         return('Hello World!')
+    
+    db.init_app(app)
     
     return app
