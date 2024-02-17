@@ -22,13 +22,13 @@ def register():
             try:
                 db.execute(
                     'insert into user (username, password) values (?, ?)',
-                    (username, generate_password_hash(password),),
+                    (username, generate_password_hash(password)),
                 )
                 db.commit
             except db.IntegrityError:
                 error = f"Username {username} is already exists"
             else:
-                redirect(url_for('auth.login'))
+                return redirect(url_for('auth.login'))
         flash(error)
     return render_template('auth/register.html')
 
@@ -54,7 +54,7 @@ def login():
             return redirect(url_for('index'))
         
         flash(error)
-    return render_template(url_for('auth/login.html'))
+    return render_template('auth/login.html')
 
 @bp.before_app_request
 def load_logged_in_user():
